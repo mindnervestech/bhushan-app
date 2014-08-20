@@ -16,6 +16,7 @@ public class Task extends Model{
 	public Long id;
 	
 	public String pname;
+	public String lname;
 	
 	public Task(String pname){
 		this.pname = pname;
