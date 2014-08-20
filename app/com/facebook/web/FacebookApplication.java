@@ -190,7 +190,40 @@ public class FacebookApplication extends Controller {
 			System.out.println("Done for page: "+pageName);
 		}
 
-		final String dateName = generateCsv(postLists);
+		//final String dateName = generateCsv(postLists);
+		
+		
+		CellProcessor[] processors = new CellProcessor[] {
+				new NotNull(), // name
+				new NotNull(), // message
+				new NotNull(), // picture
+				new NotNull(), // link
+				new NotNull(), // icon
+				new NotNull(), // created_time
+				new NotNull() // updated_time
+		};
+
+		ICsvBeanWriter beanWriter = null;
+		File file = new File(FILE_PATH);
+		if(!file.exists()){
+			file.mkdir();
+		}
+		long currentTime = System.currentTimeMillis();
+		Date date = new Date(currentTime);
+		DateFormat df1 = new SimpleDateFormat("yyyyMMdd-HHmm");
+		String dateName = df1.format(date);
+
+		beanWriter = new CsvBeanWriter(new FileWriter(FILE_PATH + File.separator + "facebook_" + dateName + ".csv"),
+				CsvPreference.STANDARD_PREFERENCE);
+		String[] header = {"from","message","picture","link","icon","created_time","updated_time"};
+		beanWriter.writeHeader(header);
+		for (FacebookPostVO result : postLists) {
+			beanWriter.write(result, header, processors);
+		}
+		if(beanWriter != null){
+			beanWriter.flush();
+			beanWriter.close();
+		}
 		
 		response().setContentType("application/octet-stream");
 		response().setHeader("Content-Disposition",
