@@ -197,10 +197,10 @@ public class FacebookApplication extends Controller {
 		response().setHeader("Content-Disposition",
 				"attachment;filename=facebook_" + dateName +".csv");
 
-		return ok("Response");
 		
+		return ok(new File(FILE_PATH + File.separator + "facebook_" + dateName + ".csv"));
 		
-
+		//return ok("Response");
 		 }
 	
 	private static JSONObject getJsonObjFromUrl(String urlString)
