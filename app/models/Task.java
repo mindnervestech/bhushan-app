@@ -22,7 +22,7 @@ public class Task extends Model{
 	}
 	
 	
-	private Finder<Long, Task> find = new Finder<Long, Task>(Long.class, Task.class);
+	//private Finder<Long, Task> find = new Finder<Long, Task>(Long.class, Task.class);
 	
 	public static Task saveTask(String pname) {
 		Task task = new Task(pname);
