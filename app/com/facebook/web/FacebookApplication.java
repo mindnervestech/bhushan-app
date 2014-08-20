@@ -58,7 +58,6 @@ public class FacebookApplication extends Controller {
 
 	public static Result downloadContents() throws IOException {
 
-
 		DynamicForm form = DynamicForm.form().bindFromRequest();
 		String accessToken = form.get("accessToken");
         System.out.println("Access Token: "+accessToken);
@@ -193,10 +192,9 @@ public class FacebookApplication extends Controller {
 
 		final String dateName = generateCsv(postLists);
 		
-		//response().setContentType("application/octet-stream");
+		response().setContentType("application/octet-stream");
 		response().setHeader("Content-Disposition",
 				"attachment;filename=facebook_" + dateName +".csv");
-
 		
 		return ok(new File(FILE_PATH + File.separator + "facebook_" + dateName + ".csv"));
 		
