@@ -228,8 +228,13 @@ taskApp.controller('selectController', function($scope, $http, filterFilter){
 		$scope.npages_c = $scope.npages_n.toString();
 		console.log($scope.npages_c);
 		$http.post( 'facebook/posts/download', {spages: $scope.npages_c, accessToken: $scope.appAccessToken })
-		.then(function(res){
-			alert(".csv file generated.");
+		.then(function(data, status, headers){
+			var contentType  = "application/octet-stream";
+			var blob = new Blob([data], { type: contentType });
+			var urlCreator = window.URL || window.webkitURL || window.mozURL || window.msURL;
+               
+            var url = urlCreator.createObjectURL(blob);
+            window.location = url;
 			var sbmt = document.getElementById("submit");
 			sbmt.disabled = true;
 			fDate = '';
