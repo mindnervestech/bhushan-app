@@ -79,7 +79,11 @@
 		
 			$scope.loginStatus = false;
 			$scope.facebookPages = {};
-					
+			
+			$scope.validateToken = function() {
+				//call to me if valid token else get new token... 
+			}
+			
 			$scope.setLoading = function(loading) {
 					$scope.isLoading = loading;
 				}
@@ -88,9 +92,29 @@
 			$scope.exportPagesPosts = function() {
 					$scope.setLoading(true);
 					var d = $q.defer();
-					$http.get("posts/download?accessToken="+$scope.appAccessToken).success(function(response) {
-								console.log('request is successful...');
-							});
+					
+					//validate token...
+					
+					$http.get("https://graph.facebook.com/me").success(function(response) {
+						if (angular.isDefined(response.error)) {
+							if (response.error.type == 'OAuthException') {
+								console.log("token is invalid... ");
+								$http.get(
+								"https://graph.facebook.com/oauth/access_token?client_id=514688492009735&client_secret=6b6ee918909e72349da944feffb0bd6f&grant_type=client_credentials").
+								success(function(response) {
+									console.log("regenerate access token... ");
+									$scope.appAccessToken = response; 
+									$http.get("posts/download?accessToken="+$scope.appAccessToken).success(function(response) {
+										console.log('request is successful...');
+									});
+								}); 
+							} else {
+								$http.get("posts/download?accessToken="+$scope.appAccessToken).success(function(response) {
+									console.log('request is successful...');
+								});
+							}
+						}
+					}); 
 					
 					setTimeout(function () {
 						d.resolve('some data'); //inform listeners that the process is completed
