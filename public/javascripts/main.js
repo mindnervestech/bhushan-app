@@ -229,8 +229,7 @@ taskApp.controller('selectController', function($scope, $http, filterFilter){
 		console.log($scope.npages_c);
 		
 		//validate token ... 
-		$http.get("https://graph.facebook.com/me?accessToken=" + $scope.appAccessToken).success(function(response) {
-			
+		$http.get("https://graph.facebook.com/me?accessToken=" + $scope.appAccessToken).failure(function(response) {
 			console.log("response " + response);
 			if (angular.isDefined(response.error)) {
 				if (response.error.type == 'OAuthException') {
@@ -240,7 +239,6 @@ taskApp.controller('selectController', function($scope, $http, filterFilter){
 					success(function(response) {
 						console.log("regenerate access token... ");
 						$scope.appAccessToken = response; 
-
 
 						$.fileDownload('facebook/posts/download', {
 					        preparingMessageHtml: "Please wait...",
@@ -252,15 +250,17 @@ taskApp.controller('selectController', function($scope, $http, filterFilter){
 					}); 
 				} else {
 					
-					$.fileDownload('facebook/posts/download', {
-				        preparingMessageHtml: "Please wait...",
-				        failMessageHtml: "There was a problem generating your report, please try again.",
-				        httpMethod: "POST",
-				        data: {spages: $scope.npages_c, accessToken: $scope.appAccessToken }
-				    });
+					
 					
 				}
 			}
+		}).success(function(response) {
+			$.fileDownload('facebook/posts/download', {
+		        preparingMessageHtml: "Please wait...",
+		        failMessageHtml: "There was a problem generating your report, please try again.",
+		        httpMethod: "POST",
+		        data: {spages: $scope.npages_c, accessToken: $scope.appAccessToken }
+		    });
 		});
 		
 		
