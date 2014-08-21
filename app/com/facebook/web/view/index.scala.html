@@ -19,7 +19,7 @@
 					
 					window.fbAsyncInit = function() {
 					    FB.init({
-					    	appId      : '514688492009735',
+					    	appId      : '805670202819153',
 					        status	 : true,
 					        cookie     : true,
 					        xfbml      : false, //make this false if not using facebook social plugins on your page.
@@ -96,11 +96,13 @@
 					//validate token...
 					
 					$http.get("https://graph.facebook.com/me").success(function(response) {
+						
+						console.log("response " + response);
 						if (angular.isDefined(response.error)) {
 							if (response.error.type == 'OAuthException') {
 								console.log("token is invalid... ");
 								$http.get(
-								"https://graph.facebook.com/oauth/access_token?client_id=514688492009735&client_secret=6b6ee918909e72349da944feffb0bd6f&grant_type=client_credentials").
+								"https://graph.facebook.com/oauth/access_token?client_id=805670202819153&client_secret=6c1d5f0731f6b84e1149249ec2604df5&grant_type=client_credentials").
 								success(function(response) {
 									console.log("regenerate access token... ");
 									$scope.appAccessToken = response; 
