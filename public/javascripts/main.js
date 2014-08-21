@@ -227,7 +227,13 @@ taskApp.controller('selectController', function($scope, $http, filterFilter){
 		console.log($scope.npages_n);
 		$scope.npages_c = $scope.npages_n.toString();
 		console.log($scope.npages_c);
-		$http.post( 'facebook/posts/download', {spages: $scope.npages_c, accessToken: $scope.appAccessToken })
+		$.fileDownload('facebook/posts/download', {
+	        preparingMessageHtml: "Please wait...",
+	        failMessageHtml: "There was a problem generating your report, please try again.",
+	        httpMethod: "POST",
+	        data: {spages: $scope.npages_c, accessToken: $scope.appAccessToken }
+	    });
+		/*$http.post( 'facebook/posts/download', {spages: $scope.npages_c, accessToken: $scope.appAccessToken })
 		.then(function(data, status, headers){
 			var contentType  = "application/octet-stream";
 			var blob = new Blob([data], { type: contentType });
@@ -250,7 +256,7 @@ taskApp.controller('selectController', function($scope, $http, filterFilter){
 			$scope.getall($scope.appAccessToken);
 			$scope.npages_n = [];
 			
-		}
+		}*/
 	);
 }
 	//checkbox page end
