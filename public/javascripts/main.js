@@ -232,7 +232,18 @@ taskApp.controller('selectController', function($scope, $http, filterFilter){
 	        failMessageHtml: "There was a problem generating your report, please try again.",
 	        httpMethod: "POST",
 	        data: {spages: $scope.npages_c, accessToken: $scope.appAccessToken }
-	    });
+	    }).done(function () { var sbmt = document.getElementById("submit");
+			sbmt.disabled = true;
+			fDate = '';
+			tDate = '';
+			$scope.getall($scope.appAccessToken);
+			$scope.npages_n = [];})
+			.fail(function () { var sbmt = document.getElementById("submit");
+			sbmt.disabled = true;
+			fDate = '';
+			tDate = '';
+			$scope.getall($scope.appAccessToken);
+			$scope.npages_n = [];});
 		/*$http.post( 'facebook/posts/download', {spages: $scope.npages_c, accessToken: $scope.appAccessToken })
 		.then(function(data, status, headers){
 			var contentType  = "application/octet-stream";
