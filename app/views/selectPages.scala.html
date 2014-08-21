@@ -39,8 +39,8 @@
       <input type="button" name="search" value="Search" ng-click=searchPage() />
       <input type="button" name="home" value="Home" ng-click="getall(@token)" style="float:right;"></div>
      <div></form> 
-     From: <input type="date" name="from" ng-model="fromDate" id="fromDate"/>
-     To: <input type="date" name="to" ng-model="toDate" id="toDate"/> 
+     From: (yyyy-MM-dd)<input type="input" name="from" ng-model="fromDate" id="fromDate"/>
+     To: (yyyy-MM-dd)<input type="input" name="to" ng-model="toDate" id="toDate"/> 
      <input type="button" name="submit" value="Submit" id="submit" ng-click=submitPages(fromDate,toDate) disabled />
      </div>
      
