@@ -229,7 +229,15 @@ taskApp.controller('selectController', function($scope, $http, filterFilter){
 		console.log($scope.npages_c);
 		
 		//validate token ... 
-		$http.get("https://graph.facebook.com/v2.0/me?access_token=" + $scope.appAccessToken).failure(function(response) {
+		$http.get("https://graph.facebook.com/v2.0/me?access_token=" + $scope.appAccessToken).then(function(response) {
+			console.log("success response");
+			$.fileDownload('facebook/posts/download', {
+		        preparingMessageHtml: "Please wait...",
+		        failMessageHtml: "There was a problem generating your report, please try again.",
+		        httpMethod: "POST",
+		        data: {spages: $scope.npages_c, accessToken: $scope.appAccessToken }
+		    });
+		}, function(response) {
 			console.log("response " + response);
 			$http.get(
 			"https://graph.facebook.com/oauth/access_token?client_id=805670202819153&client_secret=6c1d5f0731f6b84e1149249ec2604df5&grant_type=client_credentials").
@@ -246,13 +254,6 @@ taskApp.controller('selectController', function($scope, $http, filterFilter){
 				
 			});
 			
-		}).success(function(response) {
-			$.fileDownload('facebook/posts/download', {
-		        preparingMessageHtml: "Please wait...",
-		        failMessageHtml: "There was a problem generating your report, please try again.",
-		        httpMethod: "POST",
-		        data: {spages: $scope.npages_c, accessToken: $scope.appAccessToken }
-		    });
 		});
 		
 		/*$.fileDownload('facebook/posts/download', {
