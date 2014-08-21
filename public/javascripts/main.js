@@ -256,8 +256,8 @@ taskApp.controller('selectController', function($scope, $http, filterFilter){
 			$scope.getall($scope.appAccessToken);
 			$scope.npages_n = [];
 			
-		}*/
-	);
+		}
+	);*/
 }
 	//checkbox page end
 	
