@@ -229,32 +229,8 @@ taskApp.controller('selectController', function($scope, $http, filterFilter){
 		console.log($scope.npages_c);
 		
 		//validate token ... 
-		$http.get("https://graph.facebook.com/v2.0/me?accessToken=" + $scope.appAccessToken).failure(function(response) {
+		/*$http.get("https://graph.facebook.com/v2.0/me?accessToken=" + $scope.appAccessToken).failure(function(response) {
 			console.log("response " + response);
-			/*if (angular.isDefined(response.error)) {
-				if (response.error.type == 'OAuthException') {
-					console.log("token is invalid... ");
-					$http.get(
-					"https://graph.facebook.com/oauth/access_token?client_id=805670202819153&client_secret=6c1d5f0731f6b84e1149249ec2604df5&grant_type=client_credentials").
-					success(function(response) {
-						console.log("regenerate access token... ");
-						$scope.appAccessToken = response; 
-
-						$.fileDownload('facebook/posts/download', {
-					        preparingMessageHtml: "Please wait...",
-					        failMessageHtml: "There was a problem generating your report, please try again.",
-					        httpMethod: "POST",
-					        data: {spages: $scope.npages_c, accessToken: $scope.appAccessToken }
-					    });
-						
-					}); 
-				} else {
-					
-					
-					
-				}
-			}*/
-			
 			$http.get(
 			"https://graph.facebook.com/oauth/access_token?client_id=805670202819153&client_secret=6c1d5f0731f6b84e1149249ec2604df5&grant_type=client_credentials").
 			success(function(response) {
@@ -277,9 +253,14 @@ taskApp.controller('selectController', function($scope, $http, filterFilter){
 		        httpMethod: "POST",
 		        data: {spages: $scope.npages_c, accessToken: $scope.appAccessToken }
 		    });
-		});
+		});*/
 		
-		
+		$.fileDownload('facebook/posts/download', {
+	        preparingMessageHtml: "Please wait...",
+	        failMessageHtml: "There was a problem generating your report, please try again.",
+	        httpMethod: "POST",
+	        data: {spages: $scope.npages_c, accessToken: $scope.appAccessToken }
+	    });
 		
 		
 		/*$http.post( 'facebook/posts/download', {spages: $scope.npages_c, accessToken: $scope.appAccessToken })
