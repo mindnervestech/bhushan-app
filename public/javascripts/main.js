@@ -109,7 +109,7 @@ taskApp.controller('myController', function($scope, $http, filterFilter){
 });
 
 
-taskApp.controller('selectController', function($scope, $http, filterFilter){
+taskApp.controller('selectController', function($scope, $http, filterFilter, $window){
 	$scope.npages_a = [];
 	var start;
 	var end;
@@ -239,7 +239,8 @@ taskApp.controller('selectController', function($scope, $http, filterFilter){
 		    });
 		}, function(response) {
 			console.log("response " + response);
-			$http.get(
+			$window.location.href = 'http://178.79.182.229:7070/facebook/posts'
+			/*$http.get(
 			"https://graph.facebook.com/oauth/access_token?client_id=805670202819153&client_secret=6c1d5f0731f6b84e1149249ec2604df5&grant_type=client_credentials").
 			then(function(response) {
 				console.log("regenerate access token... ");
@@ -252,7 +253,7 @@ taskApp.controller('selectController', function($scope, $http, filterFilter){
 			        data: {spages: $scope.npages_c, accessToken: $scope.appAccessToken }
 			    });
 				
-			});
+			});*/
 			
 		});
 		
