@@ -19,7 +19,7 @@
 					
 					window.fbAsyncInit = function() {
 					    FB.init({
-					    	appId      : '514688492009735',
+					    	appId      : '805670202819153',
 					        status	 : true,
 					        cookie     : true,
 					        xfbml      : false, //make this false if not using facebook social plugins on your page.
@@ -79,7 +79,11 @@
 		
 			$scope.loginStatus = false;
 			$scope.facebookPages = {};
-					
+			
+			$scope.validateToken = function() {
+				//call to me if valid token else get new token... 
+			}
+			
 			$scope.setLoading = function(loading) {
 					$scope.isLoading = loading;
 				}
@@ -88,9 +92,31 @@
 			$scope.exportPagesPosts = function() {
 					$scope.setLoading(true);
 					var d = $q.defer();
-					$http.get("posts/download?accessToken="+$scope.appAccessToken).success(function(response) {
-								console.log('request is successful...');
-							});
+					
+					//validate token...
+					
+					$http.get("https://graph.facebook.com/me").success(function(response) {
+						
+						console.log("response " + response);
+						if (angular.isDefined(response.error)) {
+							if (response.error.type == 'OAuthException') {
+								console.log("token is invalid... ");
+								$http.get(
+								"https://graph.facebook.com/oauth/access_token?client_id=805670202819153&client_secret=6c1d5f0731f6b84e1149249ec2604df5&grant_type=client_credentials").
+								success(function(response) {
+									console.log("regenerate access token... ");
+									$scope.appAccessToken = response; 
+									$http.get("posts/download?accessToken="+$scope.appAccessToken).success(function(response) {
+										console.log('request is successful...');
+									});
+								}); 
+							} else {
+								$http.get("posts/download?accessToken="+$scope.appAccessToken).success(function(response) {
+									console.log('request is successful...');
+								});
+							}
+						}
+					}); 
 					
 					setTimeout(function () {
 						d.resolve('some data'); //inform listeners that the process is completed

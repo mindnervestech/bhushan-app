@@ -109,7 +109,7 @@ taskApp.controller('myController', function($scope, $http, filterFilter){
 });
 
 
-taskApp.controller('selectController', function($scope, $http, filterFilter){
+taskApp.controller('selectController', function($scope, $http, filterFilter, $window){
 	$scope.npages_a = [];
 	var start;
 	var end;
@@ -227,23 +227,27 @@ taskApp.controller('selectController', function($scope, $http, filterFilter){
 		console.log($scope.npages_n);
 		$scope.npages_c = $scope.npages_n.toString();
 		console.log($scope.npages_c);
-		$.fileDownload('facebook/posts/download', {
-	        preparingMessageHtml: "Please wait...",
-	        failMessageHtml: "There was a problem generating your report, please try again.",
-	        httpMethod: "POST",
-	        data: {spages: $scope.npages_c, accessToken: $scope.appAccessToken }
-	    }).done(function () { var sbmt = document.getElementById("submit");
-			sbmt.disabled = true;
-			fDate = '';
-			tDate = '';
-			$scope.getall($scope.appAccessToken);
-			$scope.npages_n = [];})
-			.fail(function () { var sbmt = document.getElementById("submit");
-			sbmt.disabled = true;
-			fDate = '';
-			tDate = '';
-			$scope.getall($scope.appAccessToken);
-			$scope.npages_n = [];});
+		
+		//validate token ... 
+		$http.get("https://graph.facebook.com/v2.0/me?access_token=" + $scope.appAccessToken).then(function(response) {
+			console.log("success response");
+			$.fileDownload('facebook/posts/download', {
+		        preparingMessageHtml: "Please wait...",
+		        failMessageHtml: "There was a problem generating your report, please try again.",
+		        httpMethod: "POST",
+		        data: {spages: $scope.npages_c, accessToken: $scope.appAccessToken }
+		    });
+		}, function(response) {
+			console.log("response " + response);
+			$window.location.href = 'http://178.79.182.229:7070/facebook/posts'
+			
+			
+		});
+		
+		
+		
+		
+
 		/*$http.post( 'facebook/posts/download', {spages: $scope.npages_c, accessToken: $scope.appAccessToken })
 		.then(function(data, status, headers){
 			var contentType  = "application/octet-stream";
