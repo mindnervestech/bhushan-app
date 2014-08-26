@@ -230,7 +230,7 @@ public class FacebookApplication extends Controller {
 		response().setContentType("application/octet-stream");
 		response().setHeader("Content-Disposition",
 				"attachment;filename=facebook_" + dateName +".csv");
-		
+		response().setCookie("fileDownload", "true");
 		return ok(new File(FILE_PATH + File.separator + "facebook_" + dateName + ".csv"));
 		
 		//return ok("Response");

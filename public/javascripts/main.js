@@ -230,16 +230,19 @@ taskApp.controller('selectController', function($scope, $http, filterFilter, $wi
 		
 		//validate token ... 
 		$http.get("https://graph.facebook.com/v2.0/me?access_token=" + $scope.appAccessToken).then(function(response) {
-			console.log("success response");
 			$.fileDownload('facebook/posts/download', {
 		        preparingMessageHtml: "Please wait...",
 		        failMessageHtml: "There was a problem generating your report, please try again.",
 		        httpMethod: "POST",
-		        data: {spages: $scope.npages_c, accessToken: $scope.appAccessToken }
-		    });
+		        data: {spages: $scope.npages_c, accessToken: $scope.appAccessToken },
+		        successCallback: function(url) {
+		        	//$window.location.href = 'http://localhost:9000/facebook/posts'
+		        	$window.location.href = 'http://178.79.182.229:7070/facebook/posts'
+		        }
+		        
+		    })
 		}, function(response) {
-			console.log("response " + response);
-			$window.location.href = 'http://178.79.182.229:7070/facebook/posts'
+			
 			
 			
 		});
