@@ -79,7 +79,7 @@ public class FacebookApplication extends Controller {
         Long f=null, t=null;//"yyyy-MM-dd'T'HH:mm:ssZ"
         DateFormat df = new SimpleDateFormat("EEE MMM dd yyyy"); 
         Date startDate, endDate;
-        try {if(fromDate.equals("")){
+        try {if(fromDate.equals("notselected")){
         	startDate = null;
         	//f=Long.parseLong(fromDate);
           }else{
@@ -101,7 +101,7 @@ public class FacebookApplication extends Controller {
             startDate = null;
         }
         try {
-        if(toDate.equals("")){
+        if(toDate.equals("notselected")){
         	endDate = null;
            }else{ 
         	   endDate = df.parse(toDate);

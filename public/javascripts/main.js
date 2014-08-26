@@ -214,14 +214,13 @@ taskApp.controller('selectController', function($scope, $http, filterFilter, $wi
 		var tDate = document.getElementById('toDate').value;
 	//	$scope.npages_n.push(toDate);
 	//	$scope.npages_n.push(fromDate);
-		
-		if(fromDate == ''){
-			$scope.npages_n.push("");	
+		if( fromDate=='' || fromDate == null){
+			$scope.npages_n.push("notselected");	
 			}else{
 				$scope.npages_n.push(fromDate.toDateString());
 			}
-		if(toDate ==  ''){
-			$scope.npages_n.push("");	
+		if(toDate=='' || toDate ==  null){
+			$scope.npages_n.push("notselected");	
 			}else{
 				$scope.npages_n.push(toDate.toDateString());
 			}
