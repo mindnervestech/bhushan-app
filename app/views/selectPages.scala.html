@@ -2,97 +2,130 @@
 <html ng-app="myFacebookApp">
 <head>
 
-    <script src='@routes.Assets.at("app/bower_components/jquery/dist/jquery.min.js")'></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
-    <script src='@routes.Assets.at("app/bower_components/angular/angular.js")'></script>
+	<script src='@routes.Assets.at("app/bower_components/jquery/dist/jquery.min.js")'></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+	<script src='@routes.Assets.at("app/bower_components/angular/angular.js")'></script>
 	<script src='@routes.Assets.at("javascripts/main.js")'>  </script>
-    <script src='@routes.Assets.at("javascripts/jquery.fileDownload.js")'></script>
-    <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css">
-    <script src='@routes.Assets.at("app/bower_components/angular-resource/angular-resource.js")'></script>
+	<script src='@routes.Assets.at("javascripts/jquery.fileDownload.js")'></script>
+	<link  href='@routes.Assets.at("app/bower_components/bootstrap/dist/css/bootstrap.min.css")' rel="stylesheet">
+	<link  href='@routes.Assets.at("app/bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css")' rel="stylesheet"/>
+	<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css">
+    <script src='@routes.Assets.at("app/bower_components/bootstrap/dist/js/bootstrap.min.js")'></script>
+    <script src='@routes.Assets.at("app/bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js")'></script>
+	<script src='@routes.Assets.at("app/bower_components/angular-resource/angular-resource.js")'></script>
 	<script	src="http://vitalets.github.io/checklist-model/checklist-model.js">  </script>
-
-
-    <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Rationale' rel='stylesheet' type='text/css'>
-	<link href='@routes.Assets.at("stylesheets/style-admin.css")' rel="stylesheet" type="text/css" />
-	<link href='@routes.Assets.at("stylesheets/form-element-style.css")' rel="stylesheet" type="text/css" /> 
+	<script src='@routes.Assets.at("app/bower_components/angular-bootstrap/ui-bootstrap.js")'></script>
+	<script src='@routes.Assets.at("app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js")'></script> 
+	<script src='@routes.Assets.at("app/scripts/service.js")'></script>
+	<link href='http://fonts.googleapis.com/css?family=Fjalla+One'	rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Titillium+Web'	rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Rationale'	rel='stylesheet' type='text/css'>
+	<link href='@routes.Assets.at("stylesheets/style-admin.css")'	rel="stylesheet" type="text/css" />
+	<link href='@routes.Assets.at("stylesheets/form-element-style.css")'	rel="stylesheet" type="text/css" />
 	<!-CSS sheet for designers form element->
-	<link href='@routes.Assets.at("stylesheets/main-syle.css")' rel="stylesheet" type="text/css" />
-	<link href='@routes.Assets.at("stylesheets/jquery.jscrollpane.css")' rel="stylesheet" type="text/css" media="all" />
-
+	<link href='@routes.Assets.at("stylesheets/main-syle.css")'	rel="stylesheet" type="text/css" />
+	<link href='@routes.Assets.at("stylesheets/jquery.jscrollpane.css")'	rel="stylesheet" type="text/css" media="all" />
 </head>
-
 <body>
 	<div ng-controller="selectController">
 		<div ng-init="getall('@token')">
-			
-			
-		
-		
-<!--container begin-->
-    <section id="container">
-    	<section class="contentpanel">
-        	
-            <!--Advance search fildes begin-->
-        	<section class="dadsrch">
-            	
-                <section class="dadsrchdiv">
-  <form>  <div>  <input type="text" id="search_name" ng-model="search_name" style="width: 390px"/> 
-      <input type="button" name="search" value="Search" ng-click=searchPage() />
-      <input type="button" name="home" value="Home" ng-click="getall(@token)" style="float:right;"></div>
-     <div></form> 
-     From: (yyyy-MM-dd)<input type="input" name="from" ng-model="fromDate" id="fromDate"/>
-     To: (yyyy-MM-dd)<input type="input" name="to" ng-model="toDate" id="toDate"/> 
-     <input type="button" name="submit" value="Submit" id="submit" ng-click=submitPages(fromDate,toDate) disabled />
-     </div>
-     
-               </section>
-            </section>
-            <!--Advance search fildes end-->
-            
-            
-            <!--grid begin-->
-        	<section class="dgridinfo dactcln">
-                <table ng-table="tableParams">
-                	<thead>
-                    	<tr>
-                            
-                            <th><a>Page Name</a></th>
-                            <th><a>Check</a></th>
-                            
-                        <tr>
-                    </thead>
-                	<tbody>
-                    	<tr ng-repeat="page in npages_a track by $index">
-                            <td>{{ page.pname }}</td>
-                            <td><input type="checkbox" value="page" ng-model="page.flag" ng-change=insertPage(page.pname,page.flag) ></td>
-                        </tr>
-                    	</tbody>
-                </table>
-        	</section>
-            <!--grid end-->
-           
-<section class="dpaging">
-            	
-            	<span class="dpagingright">
-                	<!-- <a href="javascript:void(0);" class="dpagingfst" ng-click="first()">First</a> -->
-                	<a href="javascript:void(0);" class="dpagingprv" ng-click="prev()">Prev</a>
-                	<!-- <a href="javascript:void(0);" ng-click="first()">01</a>
+
+
+
+
+			<!--container begin-->
+			<section id="container">
+				<section class="contentpanel">
+					<section><img src="/assets/app/images/logo.png" style="width: 100%;height: 50px;"/></section>
+					<!--Advance search fildes begin-->
+					<section class="dadsrch">
+
+						<section class="dadsrchdiv">
+							<!-- <div class="form-group dropdown">
+		    					<input type="text" class="input-sm-mini form-control dropdown-toggle textStyle" id="fromDate" data-toggle="dropdown" value="{{searchForm.from | date:'MMMM-dd-yyyy' || 'From'}}" placeholder="From">
+		    					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+		    						<datetimepicker  data-ng-model="fromDate" data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle',minView: 'day' }"></datetimepicker>
+		  						</ul>
+		  					</div>
+		  					<div class="form-group dropdown">
+		    					<label  for="to" style="color: white;">To</label>
+		    					<input type="text" id="toDate" class="input-sm-mini form-control dropdown-toggle textStyle" data-toggle="dropdown" value="{{searchForm.to | date:'MMMM-dd-yyyy' || 'To'}}" placeholder="To">
+		    					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+		    						<datetimepicker data-ng-model="toDate" data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle',minView: 'day' }"></datetimepicker>
+		  						</ul>
+		  					</div> -->
+							<div>
+								<input type="input" name="from" data-toggle="dropdown" placeholder="From Date" ng-model="fromDate" id="fromDate" style="width: 110px;" ui-date />
+								<!-- <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+		    						<datetimepicker  data-ng-model="toDate" data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle',minView: 'day' }"></datetimepicker>
+		  						</ul> -->
+								 <input type="input" name="to" ng-model="toDate" id="toDate" placeholder="To Date" style="width: 110px;" ui-date/> 
+								 <!-- <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+		    						<datetimepicker  data-ng-model="searchForm.from" data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle',minView: 'day' }"></datetimepicker>
+		  						</ul> -->
+								 <input type="button" name="submit" value="Submit" id="submit" ng-click=submitPages(fromDate,toDate) />
+							</div>
+							<!-- <input type="button" name="submit" value="Submit" id="submit" ng-click=submitPages(fromDate,toDate) disabled /> -->
+						</section>
+					</section>
+					<section class="dadsrch" style="padding: 0px;margin-top: 6px;">
+
+						<section class="dadsrchdiv">
+							<form style="margin-bottom: 0px;">
+								<div>
+									<input type="text" id="search_name" ng-model="search_name" placeholder="Page Search"
+										style="width: 440px" /> <input type="button" name="search"
+										value="Search" style="margin-left: 1%;" ng-click=searchPage() /> <input type="button"
+										name="home" style="margin-left: 1%;" value="Reset" ng-click="getall(@token)"
+										>
+								</div>
+							</form>
+						</section>
+					</section>
+					<!--Advance search fildes end-->
+
+
+					<!--grid begin-->
+					<section class="dgridinfo dactcln" style="margin-top: 0px;">
+						<table ng-table="tableParams">
+							<thead>
+								<tr>
+
+									<th><a>Page Name</a></th>
+									<th><a>Check</a></th>
+								<tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="page in npages_a track by $index">
+									<td>{{ page.pname }}</td>
+									<td><input type="checkbox" value="page"
+										ng-model="page.flag"
+										ng-change=insertPage(page.pname,page.flag)></td>
+								</tr>
+							</tbody>
+						</table>
+					</section>
+					<!--grid end-->
+
+					<section class="dpaging">
+
+						<span class="dpagingright"> <!-- <a href="javascript:void(0);" class="dpagingfst" ng-click="first()">First</a> -->
+							<a href="javascript:void(0);" class="dpagingprv"
+							ng-click="prev()">Prev</a> <!-- <a href="javascript:void(0);" ng-click="first()">01</a>
                 	<a href="javascript:void(0);" ng-click="pageTwo()">02</a>
                 	<a href="javascript:void(0);" ng-click="pageThree()">03</a>
                 	<a href="javascript:void(0);" ng-click="pageFour()">04</a>
                 	<a href="javascript:void(0);" ng-click="pageFive()">05</a> -->
-                	<a href="javascript:void(0);" class="dpagingnxt" ng-click="next()">Next</a>
-                	<!-- <a href="javascript:void(0);" class="dpaginglst" ng-click="last()">Last</a> -->
-                </span>
-            </section>
-              	</div>
-		
-	</section>
-    </section>
-    <!--container end-->
+							<a href="javascript:void(0);" class="dpagingnxt"
+							ng-click="next()">Next</a> <!-- <a href="javascript:void(0);" class="dpaginglst" ng-click="last()">Last</a> -->
+						</span>
+					</section>
 
+
+				</section>
+			</section>
+			<!--container end-->
+		</div>
 	</div>
 </body>
 </html>

@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -75,26 +76,52 @@ public class FacebookApplication extends Controller {
         String toDate = list.get(list.size() - 1);
         System.out.println("To Date: "+toDate);
       
-        Long f=null, t=null;
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd"); 
+        Long f=null, t=null;//"yyyy-MM-dd'T'HH:mm:ssZ"
+        DateFormat df = new SimpleDateFormat("EEE MMM dd yyyy"); 
         Date startDate, endDate;
-        try {if(fromDate.equals("0")){
-        	f=Long.parseLong(fromDate);
+        try {if(fromDate.equals("")){
+        	startDate = null;
+        	//f=Long.parseLong(fromDate);
           }else{
-        	  startDate = df.parse(fromDate);
-              f = (startDate.getTime())/1000;
+        	startDate = df.parse(fromDate);
+          	Calendar c = Calendar.getInstance();
+          	c.setTime(startDate);
+          	c.set(Calendar.HOUR, 0);
+          	c.set(Calendar.MINUTE,0);
+          	c.set(Calendar.SECOND, 0);
+          	c.set(Calendar.MILLISECOND, 0);
+          	startDate = c.getTime();
+          	f = startDate.getTime()/1000;
+        	  //startDate = df.parse(fromDate);
+              //f = (startDate.getTime())/1000;
             }
-        if(toDate.equals("0")){
-        	t=Long.parseLong(toDate);
-           }else{ endDate = df.parse(toDate);
-           t = (endDate.getTime())/1000;
-            	
-            }
-          
-           
+        
         } catch (ParseException e) {
             e.printStackTrace();
+            startDate = null;
         }
+        try {
+        if(toDate.equals("")){
+        	endDate = null;
+           }else{ 
+        	   endDate = df.parse(toDate);
+             	Calendar c = Calendar.getInstance();
+             	c.setTime(endDate);
+             	c.set(Calendar.HOUR, 23);
+             	c.set(Calendar.MINUTE,59);
+             	c.set(Calendar.SECOND, 59);
+             	c.set(Calendar.MILLISECOND, 999);
+             	endDate = c.getTime();
+             	t = endDate.getTime()/1000;
+             	//endDate = df.parse(toDate);
+           //t = (endDate.getTime())/1000;
+            	
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            endDate = null;
+        }  
+         
         System.out.println("from: "+f+" to: "+t);
         
        	//	Properties props = new Properties();
@@ -110,15 +137,15 @@ public class FacebookApplication extends Controller {
 		for (String pageName: pages) {	
 			try {
 				JSONObject jsnobject;
-				if(f != 0 && t != 0){
+				if(startDate != null && endDate != null){
 				jsnobject = 
 						getJsonObjFromUrl(BASE_URL + pageName + "/posts?method=GET&format=json&suppress_http_code=1&limit=50&access_token=" + accessToken+"&since="+f+"&until="+t);//new JSONObject(postStr);
 		//		System.out.println(BASE_URL + pageName + "/posts?method=GET&format=json&suppress_http_code=1&access_token=" + accessToken+"&since="+fDate+"&until="+tDate);
 				}
-				else if(f != 0 && t == 0){
+				else if( startDate != null && endDate == null){
 					jsnobject = 
 							getJsonObjFromUrl(BASE_URL + pageName + "/posts?method=GET&format=json&suppress_http_code=1&limit=50&access_token=" + accessToken+"&since="+f);	
-				}else if(f ==0 && t != 0){
+				}else if( startDate == null && endDate != null){
 					jsnobject = 
 							getJsonObjFromUrl(BASE_URL + pageName + "/posts?method=GET&format=json&suppress_http_code=1&limit=50&access_token=" + accessToken+"&until="+t);
 				}else{

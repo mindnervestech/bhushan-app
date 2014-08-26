@@ -114,6 +114,8 @@ taskApp.controller('selectController', function($scope, $http, filterFilter, $wi
 	var start;
 	var end;
 	var listSize;
+	$scope.fromDate = '';
+	$scope.toDate = '';
 	$scope.appAccessToken = '';
 	$scope.getall = function(token){
 		$scope.appAccessToken = token;		
@@ -213,15 +215,15 @@ taskApp.controller('selectController', function($scope, $http, filterFilter, $wi
 	//	$scope.npages_n.push(toDate);
 	//	$scope.npages_n.push(fromDate);
 		
-		if(!fDate){
-			$scope.npages_n.push("0");	
+		if(fromDate == ''){
+			$scope.npages_n.push("");	
 			}else{
-				$scope.npages_n.push(fromDate);
+				$scope.npages_n.push(fromDate.toDateString());
 			}
-		if(!tDate){
-			$scope.npages_n.push("0");	
+		if(toDate ==  ''){
+			$scope.npages_n.push("");	
 			}else{
-				$scope.npages_n.push(toDate);
+				$scope.npages_n.push(toDate.toDateString());
 			}
 					
 		console.log($scope.npages_n);
