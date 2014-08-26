@@ -1,4 +1,4 @@
-@(message: String)
+@(message: String)(host:String)
 
 <!DOCTYPE html>
 <html lang="en" data-ng-app="myFacebookApp" data-ng-controller="facebookcontroller">
@@ -39,16 +39,16 @@
 								    	console.log('calling login...');
 								 			  }, 
 								    			{scope: 'read_stream'},
-												{redirect_url: 'http://178.79.182.229:7070/selectPages'}
+												{redirect_url: '@host/selectPages'}
 										);
-										 } else
-										 {
-										/* $http.get('/selectPages',{params:{"appAccessToken": $scope.appAccessToken}})
-										.then(function(res){window.location = 'http://178.79.182.229:7070/selectPages'}, function(error){}); */
-											
-										window.location = 'http://178.79.182.229:7070/selectPages/'+$scope.appAccessToken
-										console.log($scope.appAccessToken);
-										 }
+							} else
+							 {
+							/* $http.get('/selectPages',{params:{"appAccessToken": $scope.appAccessToken}})
+							.then(function(res){window.location = 'http://178.79.182.229:7070/selectPages'}, function(error){}); */
+								
+							window.location = '@host/selectPages/'+$scope.appAccessToken
+							console.log($scope.appAccessToken);
+							 }
 					});
 						
 						  
@@ -56,7 +56,7 @@
 						FB.Event.subscribe('auth.login', function(response) {
 							 if (response.status === 'connected') {
 								 $scope.appAccessToken = response.authResponse.accessToken;
-								 window.location = 'http://178.79.182.229:7070/selectPages/'+$scope.appAccessToken
+								 window.location = '@host/'+$scope.appAccessToken
 		
 			        }
 						

@@ -53,7 +53,9 @@ public class FacebookApplication extends Controller {
 	static final String FILE_PATH = Play.application().configuration().getString("filePath");
 
 	public static Result index() {
-		return ok(com.facebook.web.view.html.index.render("Facebook Page Posts"));
+		String prod_url = "http://178.79.182.229:7070";
+		String local_url = "http://localhost:9000";
+		return ok(com.facebook.web.view.html.index.render("Facebook Page Posts",local_url));
 	}
 
 	public static Result downloadContents() throws IOException {
