@@ -74,10 +74,16 @@
 							<form style="margin-bottom: 0px;">
 								<div>
 									<input type="text" id="search_name" ng-model="search_name" placeholder="Page Search"
-										style="width: 440px" /> <input type="button" name="search"
+										style="width: 440px" /> 
+										<select style="margin-left: 1%;" ng-model="category">
+										<option value=" ">--Select--</option>
+										<option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
+										</select> 
+										<input type="button" name="search"
 										value="Search" style="margin-left: 1%;" ng-click=searchPage() /> <input type="button"
 										name="home" style="margin-left: 1%;" value="Reset" ng-click="getall(@token)"
 										>
+										<input type="button" value="Select All" style="margin-left: 19%;" ng-click="selectAll()"/>
 								</div>
 							</form>
 						</section>
@@ -92,12 +98,14 @@
 								<tr>
 
 									<th><a>Page Name</a></th>
+									<th><a>Category</a></th>
 									<th><a>Check</a></th>
 								<tr>
 							</thead>
 							<tbody>
 								<tr ng-repeat="page in npages_a track by $index">
 									<td>{{ page.pname }}</td>
+									<td>{{page.category}}</td>
 									<td><input type="checkbox" value="page"
 										ng-model="page.flag"
 										ng-change=insertPage(page.pname,page.flag)></td>
@@ -111,11 +119,10 @@
 
 						<span class="dpagingright"> <!-- <a href="javascript:void(0);" class="dpagingfst" ng-click="first()">First</a> -->
 							<a href="javascript:void(0);" class="dpagingprv"
-							ng-click="prev()">Prev</a> <!-- <a href="javascript:void(0);" ng-click="first()">01</a>
-                	<a href="javascript:void(0);" ng-click="pageTwo()">02</a>
-                	<a href="javascript:void(0);" ng-click="pageThree()">03</a>
-                	<a href="javascript:void(0);" ng-click="pageFour()">04</a>
-                	<a href="javascript:void(0);" ng-click="pageFive()">05</a> -->
+							ng-click="prev()">Prev</a>
+		                	<span ng-repeat="page in pages">
+		                	<a href="" ng-click="pageShow(page)">{{page}}</a>
+		                	</span>
 							<a href="javascript:void(0);" class="dpagingnxt"
 							ng-click="next()">Next</a> <!-- <a href="javascript:void(0);" class="dpaginglst" ng-click="last()">Last</a> -->
 						</span>

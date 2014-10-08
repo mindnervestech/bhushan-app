@@ -15,7 +15,9 @@ public class FacebookPostVO {
 	private String link;
 	private String type;
 	private String icon;
+	private String created_Date;
 	private String created_time;
+	private String updated_Date;
 	private String updated_time;
 	
 	public FacebookPostVO() {
@@ -28,6 +30,22 @@ public class FacebookPostVO {
 
 	public void setIcon(String icon) {
 		this.icon = icon;
+	}
+
+	public String getCreated_Date() {
+		return created_Date;
+	}
+
+	public void setCreated_Date(String created_Date) {
+		this.created_Date = created_Date;
+	}
+
+	public String getUpdated_Date() {
+		return updated_Date;
+	}
+
+	public void setUpdated_Date(String updated_Date) {
+		this.updated_Date = updated_Date;
 	}
 
 	public String getFrom() {
@@ -76,7 +94,7 @@ public class FacebookPostVO {
 	public String toString() {
 		return "FacebookPostVO [from=" + from + ", message=" + message
 				+ ", picture=" + picture + ", link=" + link + ", type=" + type
-				+ ", created_time=" + created_time + ", updated_time="
+				+ ", created_Date=" + created_Date + ", created_time=" + created_time + ", updated_Date="+ updated_Date + ",updated_time="
 				+ updated_time + "]";
 	}
 	

@@ -297,9 +297,10 @@ public class Application extends Controller {
     public static Result newPage(){
     DynamicForm form = DynamicForm.form().bindFromRequest();
     String pageName = form.get("pagename");
-    	//System.out.println("page need to be insertrd is:" + pageName);
+    String pageCategory = form.get("pageCategory");
+    	//System.out.println("page need to be insertrd is:" + pageCategory);
     	// ======== TODO DB 
-    	Task task = Task.saveTask(pageName);
+    	Task task = Task.saveTask(pageName,pageCategory);
     	//=======
     	//Map<String, String>  map = new HashMap();
     	//map.put("id", "1");
@@ -313,6 +314,13 @@ public class Application extends Controller {
     	List<Task> pages = Task.getPages();
     	return ok(Json.toJson(pages));
     }
+    
+    public static Result getAllCategories(){
+        
+    	List<String> pages = Task.getCategories();
+    	return ok(Json.toJson(pages));
+    }
+    
     public static Result delPage(){
     	DynamicForm form = DynamicForm.form().bindFromRequest();
         String pid = form.get("pageid");
@@ -326,8 +334,9 @@ public class Application extends Controller {
     public static Result searchPage(){
     DynamicForm form = DynamicForm.form().bindFromRequest();
     String searchName = form.get("searchname");
-    //System.out.println("search wala query: "+searchName);
-    List<Task> sTask = Task.searchTask(searchName);
+    String category = form.get("category");
+    //System.out.println("search wala query: ............................."+category);
+    List<Task> sTask = Task.searchTask(searchName,category);
     return ok(Json.toJson(sTask));
     }
     

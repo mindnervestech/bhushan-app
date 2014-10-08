@@ -76,6 +76,9 @@ public class FacebookApplication extends Controller {
         String toDate = list.get(list.size() - 1);
         System.out.println("To Date: "+toDate);
       
+        DateFormat dtype = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ");
+        DateFormat dfr = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dtf = new SimpleDateFormat("hh:mm:ss");
         Long f=null, t=null;//"yyyy-MM-dd'T'HH:mm:ssZ"
         DateFormat df = new SimpleDateFormat("EEE MMM dd yyyy"); 
         Date startDate, endDate;
@@ -195,17 +198,26 @@ public class FacebookApplication extends Controller {
 						} else { 
 							vo.setIcon(""); 
 						}
-												
-						if (explrObject.has("created_time")) { 
-							vo.setCreated_time(explrObject.getString("created_time")); 
+							
+						if (explrObject.has("created_time")) {
+							Date date = dtype.parse(explrObject.getString("created_time"));
+							Date time = dtype.parse(explrObject.getString("created_time"));
+							vo.setCreated_time(dtf.format(time));
+							vo.setCreated_Date(dfr.format(date));
 						} else { 
-							vo.setCreated_time(""); 
+							vo.setCreated_time("");
+							vo.setCreated_Date("");
 						}
 						
+						
 						if (explrObject.has("updated_time")) { 
-							vo.setUpdated_time(explrObject.getString("updated_time")); 
+							Date date = dtype.parse(explrObject.getString("updated_time"));
+							Date time = dtype.parse(explrObject.getString("updated_time"));
+							vo.setUpdated_time(dtf.format(time));
+							vo.setUpdated_Date(dfr.format(date));
 						} else { 
-							vo.setUpdated_time(""); 
+							vo.setUpdated_time("");
+							vo.setUpdated_Date("");
 						}
 						
 						postLists.add(vo);
@@ -228,7 +240,9 @@ public class FacebookApplication extends Controller {
 				new NotNull(), // picture
 				new NotNull(), // link
 				new NotNull(), // icon
+				new NotNull(), // created_Date
 				new NotNull(), // created_time
+				new NotNull(), // updated_Date
 				new NotNull() // updated_time
 		};
 
@@ -244,7 +258,7 @@ public class FacebookApplication extends Controller {
 
 		beanWriter = new CsvBeanWriter(new FileWriter(FILE_PATH + File.separator + "facebook_" + dateName + ".csv"),
 				CsvPreference.STANDARD_PREFERENCE);
-		String[] header = {"from","message","picture","link","icon","created_time","updated_time"};
+		String[] header = {"from","message","picture","link","icon","created_Date","created_time","updated_Date","updated_time"};
 		beanWriter.writeHeader(header);
 		for (FacebookPostVO result : postLists) {
 			beanWriter.write(result, header, processors);
@@ -284,7 +298,9 @@ public class FacebookApplication extends Controller {
 				new NotNull(), // picture
 				new NotNull(), // link
 				new NotNull(), // icon
+				new NotNull(), // created_Date
 				new NotNull(), // created_time
+				new NotNull(), // updated_Date
 				new NotNull() // updated_time
 		};
 
@@ -300,7 +316,7 @@ public class FacebookApplication extends Controller {
 
 		beanWriter = new CsvBeanWriter(new FileWriter(FILE_PATH + File.separator + "facebook_" + dateName + ".csv"),
 				CsvPreference.STANDARD_PREFERENCE);
-		String[] header = {"from","message","picture","link","icon","created_time","updated_time"};
+		String[] header = {"from","message","picture","link","icon","created_Date","created_time","updated_Date","updated_time"};
 		beanWriter.writeHeader(header);
 		for (FacebookPostVO result : postLists) {
 			beanWriter.write(result, header, processors);

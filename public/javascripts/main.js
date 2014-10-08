@@ -7,6 +7,8 @@ taskApp.controller('myController', function($scope, $http, filterFilter){
 		var start;
 		var end;
 		var listSize;
+		var pageSize;
+		$scope.pages = [];
 		$scope.getall = function(){
 			
 			$http.get( '/get-all-pages',{})
@@ -17,6 +19,13 @@ taskApp.controller('myController', function($scope, $http, filterFilter){
 				//console.log($scope.npages);
 				listSize = $scope.npages.length;
 				console.log(listSize);
+				pageSize = Math.floor(listSize/50);
+				if(listSize%50>0) {
+					pageSize = pageSize+1;
+				}
+					for(var i=1;i<=pageSize;i++) {
+						$scope.pages[i-1] = i;
+					}
 				//angular.forEach(res.data, function(value, key) {
 				//	$scope.npages.push(value);
 				//});
@@ -26,6 +35,18 @@ taskApp.controller('myController', function($scope, $http, filterFilter){
 			}
 		);
 	}
+		
+		$scope.pageShow = function(page) {
+			
+			page = page*50;
+			end = page;
+			start = end-50;
+			if(page>listSize) {
+				end = listSize;
+				start = page-50;
+			}
+			$scope.npages_a = $scope.npages.slice(start,end);
+		};
 		
 		$scope.searchPage = function(){
 			$http.post( '/search-page', {searchname: $scope.search_name})
@@ -50,11 +71,12 @@ taskApp.controller('myController', function($scope, $http, filterFilter){
 	}	
 		
 		$scope.addPage = function() {
-			$http.post( '/add-pages',{pagename: $scope.page_name})
+			$http.post( '/add-pages',{pagename: $scope.page_name,pageCategory:$scope.page_category})
 		
 				.then(function(res){
 					alert("Successfully added "+$scope.page_name+" !");
 					document.getElementById("page_name").value = '';
+					document.getElementById("page_category").value = '';
 					$scope.getall();
 		//			console.log(res.data);
 					//$scope.npages.push(res.data);
@@ -86,7 +108,7 @@ taskApp.controller('myController', function($scope, $http, filterFilter){
 				end = listSize;
 			}
 			else {
-				end = 10;
+				end = 50;
 			}
 			$scope.npages_a = $scope.npages.slice(start,end);				
 	};
@@ -94,7 +116,7 @@ taskApp.controller('myController', function($scope, $http, filterFilter){
 		$scope.next = function() {
 			if(end < listSize){
 			start = end;
-			end = start + 10;
+			end = start + 50;
 			$scope.npages_a = $scope.npages.slice(start,end);				
 			}
 	};
@@ -102,7 +124,7 @@ taskApp.controller('myController', function($scope, $http, filterFilter){
 		$scope.prev = function() {
 			if(start > 0){
 			end = start;
-			start = start - 10;
+			start = start - 50;
 			$scope.npages_a = $scope.npages.slice(start,end);				
 			}
 	};
@@ -114,9 +136,24 @@ taskApp.controller('selectController', function($scope, $http, filterFilter, $wi
 	var start;
 	var end;
 	var listSize;
+	var pageSize;
+	$scope.category = " ";
+	$scope.pages = [];
 	$scope.fromDate = '';
 	$scope.toDate = '';
 	$scope.appAccessToken = '';
+	
+	/*$http.get( '/get-all-category',{})
+	.then(function(res){
+		$scope.categories = res.data;
+	}*/
+	 $http({
+	        method: "GET",
+	        url: "/get-all-category"
+	    }).success(function (data, status, headers, config) { 
+	            $scope.categories = data;
+	        })
+	        
 	$scope.getall = function(token){
 		$scope.appAccessToken = token;		
 		//console.log(token);
@@ -128,6 +165,13 @@ taskApp.controller('selectController', function($scope, $http, filterFilter, $wi
 			//console.log($scope.npages);
 			listSize = $scope.npages.length;
 			console.log(listSize);
+			pageSize = Math.floor(listSize/50);
+			if(listSize%50>0) {
+				pageSize = pageSize+1;
+			}
+				for(var i=1;i<=pageSize;i++) {
+					$scope.pages[i-1] = i;
+				}
 			$scope.first();
 			document.getElementById("fromDate").value = '';
 			document.getElementById("toDate").value = '';
@@ -138,7 +182,7 @@ taskApp.controller('selectController', function($scope, $http, filterFilter, $wi
 }
 	
 	$scope.searchPage = function(){
-		$http.post( '/search-page', {searchname: $scope.search_name})
+		$http.post( '/search-page', {searchname: $scope.search_name,category:$scope.category})
 		.then(function(res){
 			document.getElementById("search_name").value = '';
 			
@@ -162,7 +206,7 @@ taskApp.controller('selectController', function($scope, $http, filterFilter, $wi
 			end = listSize;
 		}
 		else {
-			end = 10;
+			end = 50;
 		}
 		$scope.npages_a = $scope.npages.slice(start,end);
 		//console.log($scope.npages_a);
@@ -172,7 +216,7 @@ taskApp.controller('selectController', function($scope, $http, filterFilter, $wi
 	$scope.next = function() {
 		if(end < listSize){
 		start = end;
-		end = start + 10;
+		end = start + 50;
 		$scope.npages_a = $scope.npages.slice(start,end);
 		}
 };
@@ -180,12 +224,31 @@ taskApp.controller('selectController', function($scope, $http, filterFilter, $wi
 	$scope.prev = function() {
 		if(start > 0){
 		end = start;
-		start = start - 10;
+		start = start - 50;
 		$scope.npages_a = $scope.npages.slice(start,end);
 		}
 };
 
-	
+	$scope.pageShow = function(page) {
+		
+		page = page*50;
+		end = page;
+		start = end-50;
+		if(page>listSize) {
+			end = listSize;
+			start = page-50;
+		}
+		$scope.npages_a = $scope.npages.slice(start,end);
+	};
+
+	$scope.selectAll = function() {
+		console.log('asdsdff');
+		angular.forEach($scope.npages_a, function (item) {
+            item.flag = true;
+            $scope.npages_n.push(item.pname);
+        });
+	};
+
 	// checkbox page start
 	$scope.npages_n = [];
 	$scope.insertPage = function(pagename, flag){
@@ -237,8 +300,8 @@ taskApp.controller('selectController', function($scope, $http, filterFilter, $wi
 		        httpMethod: "POST",
 		        data: {spages: $scope.npages_c, accessToken: $scope.appAccessToken },
 		        successCallback: function(url) {
-		        	//$window.location.href = 'http://localhost:9000/facebook/posts'
-		        	$window.location.href = 'http://178.79.182.229:7070/facebook/posts'
+		        	//$window.location.href = 'http://localhost:9000/fb-home'
+		        	$window.location.href = 'http://178.79.182.229:7070/fb-home'
 		        }
 		        
 		    })
