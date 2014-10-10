@@ -8,6 +8,7 @@ taskApp.controller('myController', function($scope, $http, filterFilter){
 		var end;
 		var listSize;
 		var pageSize;
+		$scope.category = " ";
 		$scope.pages = [];
 		$scope.getall = function(){
 			
@@ -49,7 +50,7 @@ taskApp.controller('myController', function($scope, $http, filterFilter){
 		};
 		
 		$scope.searchPage = function(){
-			$http.post( '/search-page', {searchname: $scope.search_name})
+			$http.post( '/search-page', {searchname: $scope.search_name,category:$scope.category})
 			.then(function(res){
 				document.getElementById("search_name").value = '';
 				document.getElementById("page_name").value = '';
